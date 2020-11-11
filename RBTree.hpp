@@ -1,4 +1,5 @@
 #include <iostream>
+#include "functions.hpp"
 
 template<class T1, class T2>
 class Node {
@@ -24,6 +25,9 @@ public:
     }
     T2 FindValue() {
         return Value;
+    }
+    void GetLeft(Node* node) {
+        Left = node;
     }
     Node* FindLeft() {
         return Left;
@@ -67,7 +71,7 @@ public:
             Node<T1, T2>* parent_ptr;
             while(current_root != nullptr) {
                 parent_ptr = current_root;
-                if (key < current_root->FindKey()) {
+                if (strings_compare(key, current_root->FindKey()) == 0) {
                     current_root = current_root->FindLeft();
                 }
                 else {
@@ -75,7 +79,12 @@ public:
                 }
             }
             current_root = new Node<T1, T2>;
-            parent_ptr->GetRight(current_root);
+            if (strings_compare(key, parent_ptr->FindKey()) == 0) {
+                parent_ptr->GetLeft(current_root);
+            }
+            else {
+                parent_ptr->GetRight(current_root);
+            }
             current_root->GetKey(key);
             current_root->GetValue(value);
             current_root->GetParent(parent_ptr);

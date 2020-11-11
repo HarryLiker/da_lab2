@@ -1,11 +1,22 @@
 #include <iostream>
 #include "RBTree.hpp"
+#include "functions.hpp"
 
 int main() {
+    //char word1 [256];
+    //char word2 [256];
+    //std::cin >> word1;
+    //std::cin >> word2;
+    
+    //std::cout << strings_compare(word1, word2);
+
+
+
     Node<char *, unsigned long long> node;
     Tree<char *, unsigned long long> tree;
     char word [256];
     unsigned long long value;
+    
     for(int i = 0; i < 3; i ++) {
         std::cout << "Write key: ";
         std::cin >> word;
@@ -13,5 +24,5 @@ int main() {
         std::cin >> value;
         tree.AddInTree(word, value);
     }
-
+    
 }
