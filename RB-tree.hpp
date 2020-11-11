@@ -1,20 +1,49 @@
 #include <iostream>
-#include "pair.hpp"
+#include <cstring>
 
 template<class T1, class T2>
 class Node {
 private:
-    TPair<T1, T2> Data;
+    T1 Key = nullptr;
+    T2 Value;
     Node *Left;
     Node *Right;
+    Node *Parent;
 public:
     Node() {}
-    Node(T1 key, T2 value): Data(key, value), Left(nullptr), Right(nullptr) {}
+    // Node(T1 key, T2 value): Key(key), Value(value), Left(nullptr), Right(nullptr) {}
+    void GetKey(T1 key) {
+        Key = new char [256];
+        for (int i = 0; i < 256; i++) {
+            Key[i] = key[i];
+        }
+    }
     T1 FindKey() {
-        return Data.FindKey();
+        return Key;
+    }
+    void GetValue(T2 value) {
+        Value = value;
     }
     T2 FindValue() {
-        return Data.FindValue();
+        return Value;
+    }
+    void GetLeft(Node* node) {
+        Left = node;
+    }
+    Node* FindLeft() {
+        return Left;
+    }
+    void GetRight(Node* node) {
+        Right = node;
+    }
+    Node* FindRight() {
+        return Right;
+    }
+    void GetParent(Node* node) {
+        Parent = node;
+    }
+    Node* FindParent() {
+        return Parent;
     }
     ~Node() {}
 };
@@ -25,20 +54,36 @@ private:
     Node<T1, T2> *Root;
 public:
     Tree() {}
-    void Add(T1 key, T2 value) {
-        Node<T1, T2>* node = new Node<T1,T2>;
+    void AddInTree(T1 key, T2 value) {
+        Node<T1, T2>* current_node = Root;
+        static int bl_height = 0;
+        if(bl_height == 0) {
+            Root->GetKey(key);
+            Root->GetValue(value);
+        }
+        else {
+            Node<T1, T2>* parent_ptr = nullptr;
+            while (current_node != nullptr) {
+                parent_ptr = current_node;
+                if (key < current_node->FindKey()) {
+                    current_node = current_node->FindLeft();
+                }
+                else {
+                    current_node = current_node->FindRight();
+                }
+            }
+            current_node = new Node <T1, T2>;
+            current_node->GetKey(key);
+            current_node->GetValue(value);
+            current_node->GetParent(parent_ptr);
+        }
     }
     ~Tree() {}
 };
 
+
+
 /*
-template<class T1>
-Tree {
-private:
-
-}*/
-
-
 template<class T1, class T2>
 class RBTree {
 private:
@@ -110,3 +155,4 @@ public:
     }
     ~RBTree() {}
 };
+*/
