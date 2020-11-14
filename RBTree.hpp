@@ -60,8 +60,14 @@ template<class T1, class T2>
 class Tree {
 private:
     Node<T1, T2>* Root;
+    Node<T1,T2>* TNull;
 public:
-    Tree(): Root(nullptr) {}
+    Tree(): Root(nullptr) {
+        TNull = new Node<T1,T2>;
+        TNull->GetLeft(Root);
+        TNull->GetRight(Root);
+        TNull->GetColor(BLACK);
+    }
     Node<T1,T2>* FindRoot() {
         return Root;
     }
@@ -75,11 +81,11 @@ public:
     void LeftRotation(Node<T1,T2>* x) {
         Node<T1,T2> *y = x->FindRight();
         x->GetRight(y->FindLeft());
-        if (y->FindLeft() != nullptr) {
+        if (y->FindLeft() != TNull) {
             y->FindLeft()->GetParent(x);
         }
         y->GetParent(x->FindParent());
-        if (x->FindParent() == nullptr) {
+        if (x->FindParent() == TNull) {
             Root = y;
         }
         else if (x == x->FindParent()->FindLeft()) {
@@ -95,11 +101,11 @@ public:
     void RightRotation(Node<T1,T2>* x) {
         Node<T1,T2> *y = x->FindLeft();
         x->GetLeft(y->FindRight());
-        if (y->FindRight() != nullptr) {
+        if (y->FindRight() != TNull) {
             y->FindRight()->GetParent(x);
         }
         y->GetParent(x->FindParent());
-        if (x->FindParent() == nullptr) {
+        if (x->FindParent() == TNull) {
             Root = y;
         }
         else if (x == x->FindParent()->FindRight()) {
@@ -113,11 +119,11 @@ public:
     }
     
     void Fixup(Node<T1,T2>* x) {
-        while (x != Root && x->FindParent()->FindColor() == RED) {
+        while (x->FindParent()->FindColor() == RED) {
             if (x->FindParent() == x->FindParent()->FindParent()->FindLeft()) {
                 Node<T1,T2> *y;
                 y = x->FindParent()->FindParent()->FindRight();
-                if (y!=nullptr && y->FindColor() == RED) {
+                if (y->FindColor() == RED) {
                     x->FindParent()->GetColor(BLACK);
                     y->GetColor(BLACK);
                     x->FindParent()->FindParent()->GetColor(RED);
@@ -136,7 +142,7 @@ public:
             else {
                 Node<T1,T2> *y;
                 y = x->FindParent()->FindParent()->FindLeft();
-                if (y != nullptr && y->FindColor() == RED) {
+                if (y->FindColor() == RED) {
                     x->FindParent()->GetColor(BLACK);
                     y->GetColor(BLACK);
                     x->FindParent()->FindParent()->GetColor(RED);
@@ -194,9 +200,9 @@ public:
     }
 
     void Insert2(Node<T1, T2>* z) {
-        Node<T1, T2> *y = nullptr;
+        Node<T1, T2> *y = TNull;
         Node<T1,T2> *x = Root;
-        while (x != nullptr) {
+        while (x != TNull && Root != nullptr) {
             y = x;
             if (strings_compare(z->FindKey(), x->FindKey()) == 0) {
                 x = x->FindLeft();
@@ -206,7 +212,7 @@ public:
             }
         }
         z->GetParent(y);
-        if (y == nullptr) {
+        if (y == TNull) {
             Root = z;
         }
         else if (strings_compare(z->FindKey(), y->FindKey()) == 0) {
@@ -215,21 +221,21 @@ public:
         else {
             y->GetRight(z);
         }
-        z->GetLeft(nullptr);
-        z->GetRight(nullptr);
+        z->GetLeft(TNull);
+        z->GetRight(TNull);
         z->GetColor(RED);
         Fixup(z);
     }
 
     Node<T1,T2> *TreeMinimum(Node<T1,T2> *x) {
-        while (x->FindLeft() != nullptr) {
+        while (x->FindLeft() != TNull) {
             x = x->FindLeft();
         }
         return x;
     }
 
     void Transplant(Node<T1,T2> *u, Node<T1,T2> *v) {
-        if (u->FindParent() == nullptr) {
+        if (u->FindParent() == TNull) {
             Root = v;
         }
         else if (u == u->FindParent()->FindLeft()) {
@@ -301,13 +307,13 @@ public:
 
     void Delete(Node<T1,T2>* z) {
         Node<T1,T2> *y = z;
-        Node<T1,T2> *x = nullptr;
+        Node<T1,T2> *x = TNull;
         NodeColor y_original_color = y->FindColor();
-        if (z->FindLeft() == nullptr) {
+        if (z->FindLeft() == TNull) {
             x = z->FindRight();
             Transplant(z, z->FindRight());
         }
-        else if (z->FindRight() == nullptr) {
+        else if (z->FindRight() == TNull) {
             x = z->FindLeft();
             Transplant(z, z->FindLeft());
         }
@@ -316,9 +322,7 @@ public:
             y_original_color = y->FindColor();
             x = y->FindRight();
             if (y->FindParent() == z) {
-                if (x != nullptr) {
-                    x->GetParent(y);
-                }
+                x->GetParent(y);
             }
             else {
                 Transplant(y, y->FindRight());
