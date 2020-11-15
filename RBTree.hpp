@@ -68,6 +68,7 @@ public:
         TNull->GetRight(Root);
         TNull->GetColor(BLACK);
     }
+
     Node<T1,T2>* FindRoot() {
         return Root;
     }
@@ -75,9 +76,30 @@ public:
     void GetKey(T1 key) {
         Root->GetKey(key);
     }
+
     void GetValue(T2 value) {
         Root->GetValue(value);
     }
+    /*
+    void AllTreeDelete {
+        Node <T1,T2> *current_root;
+        while ()
+    } */
+    
+    Node<T1,T2>* Search(T1 key) {
+        Node<T1,T2> *x = Root;
+        while (x != TNull && equal_strings(key, x->FindKey()) == 1) { // 
+            if (strings_compare(key, x->FindKey()) == 0) {
+                x = x->FindLeft();
+            }
+            else {
+                x = x->FindRight();
+            }
+        }
+        return x;
+    }
+    
+    
     void LeftRotation(Node<T1,T2>* x) {
         Node<T1,T2> *y = x->FindRight();
         x->GetRight(y->FindLeft());

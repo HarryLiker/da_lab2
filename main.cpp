@@ -4,19 +4,23 @@
 
 int main() {
     /*
-    char word1 [256];
-    char word2 [256];
+    char word1 [6];
+    char word2 [6];
     std::cin >> word1;
+    std::cout << "Word 1 entered!\n";
     std::cin >> word2;
-    
-    std::cout << strings_compare(word1, word2);
+    std::cout << word1 << " " << word2;
+    std::cout << "Word2 entered!\n";
+    equal_strings(word1, word2) == 0 ? std::cout << "YES" : std::cout << "NO";
     */
+
     
     Node<char *, unsigned long long>* node;
     Tree<char *, unsigned long long>* tree;
     tree = new Tree<char *, unsigned long long>;
     char word [256];
     unsigned long long value;
+    
     
     for(int i = 0; i < 20; i ++) {
         std::cout << "Write key: ";
@@ -29,6 +33,8 @@ int main() {
         tree->Insert2(node);
         node = nullptr;
     }
+    std::cin >> word;
+    tree->Search(word) != nullptr ? std::cout << "YES" : std::cout << "NO";
     tree->Delete(tree->FindRoot()->FindRight()->FindLeft());
-    //
+    
 }
