@@ -80,11 +80,32 @@ public:
     void GetValue(T2 value) {
         Root->GetValue(value);
     }
-    /*
-    void AllTreeDelete {
-        Node <T1,T2> *current_root;
-        while ()
-    } */
+    
+    void AllTreeDelete() {
+        Node<T1,T2> *current_root = Root;
+        Node<T1,T2> *deleting_ptr = nullptr;
+        while (current_root != TNull) {
+            if (current_root->FindLeft() != TNull) {
+                current_root = current_root->FindLeft();
+            }
+            else if (current_root->FindRight() != TNull) {
+                current_root = current_root->FindRight();
+            }
+            else {
+                deleting_ptr = current_root;
+                if (current_root->FindParent()->FindLeft() == current_root) {
+                    current_root->FindParent()->GetLeft(TNull);
+                }
+                else {
+                    current_root->FindParent()->GetRight(TNull);
+                }
+                current_root = current_root->FindParent();
+                delete [] deleting_ptr->FindKey();
+                delete deleting_ptr;
+            }
+        }
+        delete TNull;
+    } 
     
     Node<T1,T2>* Search(T1 key) {
         Node<T1,T2> *x = Root;
@@ -95,6 +116,9 @@ public:
             else {
                 x = x->FindRight();
             }
+        }
+        if (x == TNull) {
+            return nullptr;
         }
         return x;
     }
@@ -359,6 +383,7 @@ public:
         if (y_original_color == BLACK) {
             DeleteFixup(x);
         }
+        delete z;
     }
 
 

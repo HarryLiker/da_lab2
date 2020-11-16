@@ -8,6 +8,9 @@ bool strings_compare(const char *string1, const char *string2) {
     if(string1[i] < string2[i]) {
         return 0;
     }
+    else if (string1[i] > string2[i]) {
+        return -1;
+    }
     return 1;
 }
 

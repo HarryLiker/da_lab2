@@ -33,8 +33,19 @@ int main() {
         tree->Insert2(node);
         node = nullptr;
     }
+    //std::cin >> word;
+    //tree->Search(word) != nullptr ? std::cout << "YES" : std::cout << "NO";
+    //tree->Delete(tree->FindRoot()->FindRight()->FindLeft());
+    tree->AllTreeDelete();
+    /*
+    std::cout << "Write searching word: ";
     std::cin >> word;
-    tree->Search(word) != nullptr ? std::cout << "YES" : std::cout << "NO";
-    tree->Delete(tree->FindRoot()->FindRight()->FindLeft());
-    
+    Node<char*,unsigned long long> *ptr = tree->Search(word);
+    if (ptr != nullptr) {
+        tree->Delete(ptr);
+    }
+    */
+    delete tree;
+
+    // main();
 }
