@@ -14,6 +14,7 @@ int main() {
     equal_strings(word1, word2) == 0 ? std::cout << "YES" : std::cout << "NO";
     */
 
+
     
     Node<char *, unsigned long long>* node;
     Tree<char *, unsigned long long>* tree;
@@ -33,10 +34,12 @@ int main() {
         tree->Insert2(node);
         node = nullptr;
     }
-    //std::cin >> word;
-    //tree->Search(word) != nullptr ? std::cout << "YES" : std::cout << "NO";
-    //tree->Delete(tree->FindRoot()->FindRight()->FindLeft());
+    std::cin >> word;
+    tree->Search(word) != nullptr ? std::cout << "YES" : std::cout << "NO";
+    tree->Delete(tree->FindRoot()->FindRight()->FindLeft());
     tree->AllTreeDelete();
+    
+    
     /*
     std::cout << "Write searching word: ";
     std::cin >> word;
@@ -45,6 +48,8 @@ int main() {
         tree->Delete(ptr);
     }
     */
+
+
     delete tree;
 
     // main();

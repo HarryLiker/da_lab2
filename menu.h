@@ -27,7 +27,14 @@ int main() {
             tree->Delete(node);
         }
         else if (symbol == '!') {
-            std::cout << "Save\n";
+            char action [5];
+            std::cin >> action;
+            if (equal_strings(action, "Save") == 0) {
+                // Сохраняем дерево
+            }
+            else if (equal_strings(action, "Load") == 0) {
+                // Загружаем дерево
+            }
         }
         else {
             std::cout << "Load\n";

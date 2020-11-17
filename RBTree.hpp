@@ -383,6 +383,7 @@ public:
         if (y_original_color == BLACK) {
             DeleteFixup(x);
         }
+        delete [] z->FindKey();
         delete z;
     }
 
