@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/harry/MAI/DA/da_lab2
+CMAKE_SOURCE_DIR = /root/work/MAI/DA/da_lab2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/harry/MAI/DA/da_lab2
+CMAKE_BINARY_DIR = /root/work/MAI/DA/da_lab2
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/harry/MAI/DA/da_lab2/CMakeFiles /home/harry/MAI/DA/da_lab2/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/work/MAI/DA/da_lab2/CMakeFiles /root/work/MAI/DA/da_lab2/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/harry/MAI/DA/da_lab2/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/work/MAI/DA/da_lab2/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -177,6 +177,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+menu.o: menu.cpp.o
+
+.PHONY : menu.o
+
+# target to build an object file
+menu.cpp.o:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/menu.cpp.o
+.PHONY : menu.cpp.o
+
+menu.i: menu.cpp.i
+
+.PHONY : menu.i
+
+# target to preprocess a source file
+menu.cpp.i:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/menu.cpp.i
+.PHONY : menu.cpp.i
+
+menu.s: menu.cpp.s
+
+.PHONY : menu.s
+
+# target to generate assembly for a file
+menu.cpp.s:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/menu.cpp.s
+.PHONY : menu.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... menu.o"
+	@echo "... menu.i"
+	@echo "... menu.s"
 .PHONY : help
 
 

@@ -1,28 +1,25 @@
 #include <iostream>
+#include "menu.hpp"
 #include "RBTree.hpp"
 #include "functions.hpp"
+#include "vector.hpp"
 
 int main() {
+
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    std::cout.tie(nullptr);
+
+
+    menu();
+
     /*
-    char word1 [6];
-    char word2 [6];
-    std::cin >> word1;
-    std::cout << "Word 1 entered!\n";
-    std::cin >> word2;
-    std::cout << word1 << " " << word2;
-    std::cout << "Word2 entered!\n";
-    equal_strings(word1, word2) == 0 ? std::cout << "YES" : std::cout << "NO";
-    */
-
-
-    
     Node<char *, unsigned long long>* node;
     Tree<char *, unsigned long long>* tree;
     tree = new Tree<char *, unsigned long long>;
     char word [256];
     unsigned long long value;
-    
-    
+
     for(int i = 0; i < 20; i ++) {
         std::cout << "Write key: ";
         std::cin >> word;
@@ -31,15 +28,27 @@ int main() {
         node = new Node<char *, unsigned long long>;
         node->GetKey(word);
         node->GetValue(value);
-        tree->Insert2(node);
+        tree->Insert(node);
         node = nullptr;
     }
+
     std::cin >> word;
-    tree->Search(word) != nullptr ? std::cout << "YES" : std::cout << "NO";
+    Node<char*,unsigned long long> *deleting_node =  tree->Search(word);
+    if (deleting_node != nullptr) {
+        tree->Delete(deleting_node);
+    }
+    std::cin >> word;
+    std::cin >> value;
+    node = new Node<char *, unsigned long long>;
+    node->GetKey(word);
+    node->GetValue(value);
+    tree->Insert(node);
     tree->Delete(tree->FindRoot()->FindRight()->FindLeft());
+    std::cout << "Key: " << node->FindKey() << "Value: " << node->FindValue() << "\n";
     tree->AllTreeDelete();
-    
-    
+    */
+
+
     /*
     std::cout << "Write searching word: ";
     std::cin >> word;
@@ -50,7 +59,6 @@ int main() {
     */
 
 
-    delete tree;
-
-    // main();
+    //delete tree;
+    
 }

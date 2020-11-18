@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include "functions.hpp"
 
@@ -73,6 +75,10 @@ public:
         return Root;
     }
 
+    Node<T1,T2>* FindTNull() {
+        return TNull;
+    }
+
     void GetKey(T1 key) {
         Root->GetKey(key);
     }
@@ -122,7 +128,6 @@ public:
         }
         return x;
     }
-    
     
     void LeftRotation(Node<T1,T2>* x) {
         Node<T1,T2> *y = x->FindRight();
@@ -208,44 +213,7 @@ public:
         Root->GetColor(BLACK); 
     }
 
-
-
-    void Insert(T1 key, T2 value) {
-        Node<T1, T2>* current_root;
-        if (Root == nullptr) {
-            Root = new Node<T1, T2>;
-            Root->GetKey(key);
-            Root->GetValue(value);
-            Root->GetColor(BLACK);
-        }
-        else {
-            current_root = Root;
-            Node<T1, T2>* parent_ptr;
-            while(current_root != nullptr) {
-                parent_ptr = current_root;
-                if (strings_compare(key, current_root->FindKey()) == 0) {
-                    current_root = current_root->FindLeft();
-                }
-                else {
-                    current_root = current_root->FindRight();
-                }
-            }
-            current_root = new Node<T1, T2>;
-            if (strings_compare(key, parent_ptr->FindKey()) == 0) {
-                parent_ptr->GetLeft(current_root);
-            }
-            else {
-                parent_ptr->GetRight(current_root);
-            }
-            current_root->GetKey(key);
-            current_root->GetValue(value);
-            current_root->GetParent(parent_ptr);
-            current_root->GetColor(RED);
-            Fixup(current_root);
-        }
-    }
-
-    void Insert2(Node<T1, T2>* z) {
+    void Insert(Node<T1, T2>* z) {
         Node<T1, T2> *y = TNull;
         Node<T1,T2> *x = Root;
         while (x != TNull && Root != nullptr) {
@@ -387,121 +355,5 @@ public:
         delete z;
     }
 
-
     ~Tree() {}
 };
-
-/*
-
-template<class T1, class T2>
-void LeftRotation(Tree<T1,T2>* root, Node<T1,T2>* x) {
-    Node<T1,T2>* y = x->FindRight();
-    x->GetRight(y->FindLeft());
-    if (y->FindLeft() != nullptr) {
-        y->FindLeft()->GetParent(x);
-    }
-    if (y != nullptr) {
-        y->GetParent(x->FindParent());
-    }
-    if (x->FindParent()) {
-        if (x == x->FindParent()->FindLeft()) {
-            x->FindParent()->GetLeft(y);
-        }
-        else {
-            x->FindParent()->GetRight(y);
-        }
-    }
-    else {
-        root = y;
-    }
-    y->GetLeft(x);
-    if (x != nullptr) {
-        x->GetParent(y);
-    }
-}
-
-*/
-
-/*
-
-template<class T1, class T2>
-void RightRotation(Node<T1, T2>* root, Node<T1, T2>* x) {
-    Node<T1,T2>* y = x->FindLeft();
-    x->GetLeft(y->FindRight());
-    if (y->FindRight() != nullptr) {
-        y->FindRight()->GetParent(x);
-    }
-    if (y != nullptr) {
-        y->GetParent(x->FindParent());
-    }
-    if (x->FindParent()) {
-        if (x == x->FindParent()->FindRight()) {
-            x->FindParent()->GetRight(y);
-        }
-        else {
-            x->FindParent()->GetLeft(y);
-        }
-    }
-    else {
-        root = y;
-    }
-    y->GetRight(x);
-    if (x != nullptr) {
-        x->GetParent(y);
-    }
-}
-
-*/
-
-
-/*
-
-template<class T1, class T2>
-void Fixup(Node<T1, T2> *tree, Node<T1, T2>* x) {
-    while (x->FindParent()->FindColor() == RED) {
-        if (x->FindParent() == x->FindParent()->FindParent()->FindLeft()) {
-            Node<T1, T2>* y;
-            y = x->FindParent()->FindParent()->FindRight();
-            if (y->FindColor() == RED) {
-                x->FindParent()->GetColor(BLACK);
-                y->GetColor(BLACK);
-                x->FindParent()->FindParent()->GetColor(RED);
-                x = x->FindParent()->FindParent();
-            }
-            else {
-                if (x == x->FindParent()->FindRight()) {
-                    x = x->FindParent();
-                    // LEFT ROTATION (tree, x)
-                    LeftRotation(tree, x);
-                }
-            
-            x->FindParent()->GetColor(BLACK);
-            x->FindParent()->FindParent()->GetColor(RED);
-            // RIGHT ROTATION (tree, x->parent->parent)
-            RightRotation(tree, x);
-            }
-        }
-        else {
-            Node<T1,T2>* y;
-            y = x->FindParent()->FindParent()->FindLeft();
-            if (y->FindColor() == RED) {
-                x->FindParent()->GetColor(BLACK);
-                y->GetColor(BLACK);
-                x->FindParent()->FindParent()->GetColor(RED);
-                x = x->FindParent()->FindParent();
-            }
-            else {
-                if (x == x->FindParent()->FindLeft()) {
-                    x = x->FindParent();
-                    RightRotation(tree, x);
-                }
-                x->FindParent()->GetColor(BLACK);
-                x->FindParent()->FindParent()->GetColor(RED);
-                LeftRotation(tree, x->FindParent()->FindParent());
-            }
-        }
-    }
-    tree->FindRoot()->GetColor(BLACK);
-}
-
-*/
