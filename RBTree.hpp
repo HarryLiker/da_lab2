@@ -16,12 +16,14 @@ private:
     NodeColor Color; // Color: Black or Red
 public:
     Node(): Left(nullptr), Right(nullptr), Parent(nullptr), Color(RED) {}
+    
     void GetKey(T1 key) {
         Key = new char [256];
         for (int i = 0; i < 256; i++) { // Это работает
             Key[i] = key[i];
         }
     }
+    
     T1 FindKey() {
         return Key;
     }
@@ -115,8 +117,8 @@ public:
     
     Node<T1,T2>* Search(T1 key) {
         Node<T1,T2> *x = Root;
-        while (x != TNull && equal_strings(key, x->FindKey()) == 1) { // 
-            if (strings_compare(key, x->FindKey()) == 0) {
+        while (x != TNull && equal_strings(key, x->FindKey()) != 0) { // 
+            if (equal_strings(key, x->FindKey()) == -1) {
                 x = x->FindLeft();
             }
             else {
@@ -213,16 +215,22 @@ public:
         Root->GetColor(BLACK); 
     }
 
-    void Insert(Node<T1, T2>* z) {
+    bool Insert(Node<T1, T2>* z) {
         Node<T1, T2> *y = TNull;
         Node<T1,T2> *x = Root;
         while (x != TNull && Root != nullptr) {
             y = x;
-            if (strings_compare(z->FindKey(), x->FindKey()) == 0) {
-                x = x->FindLeft();
+            int strings_comparison = equal_strings(z->FindKey(), x->FindKey());
+            if (strings_comparison != 0) { 
+                if (strings_comparison == -1) {
+                    x = x->FindLeft();
+                }
+                else {
+                    x = x->FindRight();
+                }
             }
             else {
-                x = x->FindRight();
+                return 1;
             }
         }
         z->GetParent(y);
@@ -239,6 +247,7 @@ public:
         z->GetRight(TNull);
         z->GetColor(RED);
         Fixup(z);
+        return 0;
     }
 
     Node<T1,T2> *TreeMinimum(Node<T1,T2> *x) {

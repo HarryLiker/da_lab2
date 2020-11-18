@@ -17,12 +17,19 @@ int menu() {
             Node<char *, unsigned long long> *node = new Node<char *, unsigned long long>;
             node->GetKey(line);
             node->GetValue(value);
-            tree->Insert(node);
-            std::cout << "OK\n";
+            tree->Insert(node) == 0 ? std::cout << "OK\n" : std::cout << "Exist\n";
             node = nullptr;
         }
         else if (line[0] == '-') {
             std::cin >> line;
+            Node<char*, unsigned long long> *deliting_node = tree->Search(line);
+            if (deliting_node != nullptr) {
+                tree->Delete(deliting_node);
+                std::cout << "OK\n";
+            }
+            else {
+                std::cout << "NoSuchWord\n";
+            }
         }
         else if (line[0] == '!') {
             std::cin >> line;
