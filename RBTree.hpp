@@ -364,5 +364,7 @@ public:
         delete z;
     }
 
-    ~Tree() {}
+    ~Tree() {
+        AllTreeDelete();
+    }
 };

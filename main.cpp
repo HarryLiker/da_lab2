@@ -1,8 +1,10 @@
 #include <iostream>
+#include <fstream>
 #include "menu.hpp"
 #include "RBTree.hpp"
 #include "functions.hpp"
 #include "vector.hpp"
+#include "pair.hpp"
 
 int main() {
 
@@ -18,7 +20,7 @@ int main() {
 
     std::cout << equal_strings(word1, word2);
 */
-     menu();
+    menu();
 
     /*
     Node<char *, unsigned long long>* node;

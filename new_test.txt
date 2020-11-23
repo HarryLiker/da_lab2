@@ -1,0 +1,21 @@
++ hello 423
++ harry 432
++ igor 54435
++ alsel 321
++ jesuy 654
++ gaver 534
+harry
+- harry 
++ kol 543
++ ewq 321
++ qoe 543
++ igor 4332
++ dima 54435
++ kirill 432
++ rudi 423
+- hesuy
+- igor
+! Save myfile
++ kole 43243
++ lods 32
+! Load myfile

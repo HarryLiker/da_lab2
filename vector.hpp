@@ -22,7 +22,7 @@ public:
         Capacity = capacity;
         Data = new T[capacity];
     }
-
+    
     int FindSize() {
         return Size;
     }
