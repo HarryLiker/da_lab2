@@ -33,3 +33,12 @@ int equal_strings(const char *string1, const char *string2) {
     }
     return 1;
 }
+
+
+void str_copy(const char *line, char *string) {
+    int i = 0;
+    while (i < 256 && line[0] != '\0') {
+        string[i] = line [i];
+        i++;
+    }
+}

@@ -49,11 +49,13 @@ int menu() {
                 }
                 else {
                     //
-                    Vector<Node<char*,unsigned long long>> *vector;
-                    vector = new Vector<Node<char*,unsigned long long>>;
-                    write_in_vector(vector, tree, tree->FindRoot());
-                    write_in_file(&File, vector);
+                    //Vector<Node<char*,unsigned long long>> *vector;
+                    //vector = new Vector<Node<char*,unsigned long long>>;
+                    //write_in_vector(vector, tree, tree->FindRoot());
+                    //write_in_file(&File, vector);
                     //write(&File, tree, tree->FindRoot());
+
+                    save_in_tree(&File, tree, tree->FindRoot());
                     File.close();
                     std::cout << "OK\n";
                 }
@@ -66,7 +68,10 @@ int menu() {
                     std::cout << "ERROR\n";
                 }
                 else {
-                    tree->AllTreeDelete();
+                    delete tree;
+                    tree = new Tree<char *, unsigned long long>;
+                    //Tree<char *, unsigned long long> *new_tree;
+                    //new_tree = new Tree<char *, unsigned long long>;
                     load_tree(&File, tree);
                     File.close();
                 }

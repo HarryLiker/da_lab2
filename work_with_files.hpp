@@ -39,17 +39,36 @@ void write(std::ofstream *File, Tree<T1,T2> *tree, Node<T1,T2> *node) {
 template <class T1, class T2>
 void load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
     while (!File->eof()) {
-        NPair::TPair<T1,T2> pair;
-        File->read(reinterpret_cast<char*>(&pair), sizeof(NPair::TPair<T1,T2>));
-        Node<T1,T2> *node = new Node<T1,T2>;
-        node->GetKey(pair.Key);
-        node->GetValue(pair.Value);
-        tree->Insert(node);
+        char key [257];
+        unsigned long long value;
+        File->read(reinterpret_cast<char*>(key), 257*sizeof(char));
+        File->read(reinterpret_cast<char*>(&value), sizeof(unsigned long long));
+        Node<T1,T2> *node = new Node <T1,T2>;
+        node->GetKey(key);
+        node->GetValue(value);
+        if (tree->Insert(node) != 0) {
+            delete [] node->FindKey();
+            delete node;
+        }
+        //File->read(reinterpret_cast<char*>(&pair), sizeof(NPair::TPair<T1,T2>));
+        //Node<T1,T2> *node = new Node<T1,T2>;
+        //node->GetKey(pair.Key);
+        //node->GetValue(pair.Value);
+        //tree->Insert(node);
     }
 }
 
 
 template <class T1, class T2>
-void save_in_tree(std::ostream *File, Tree<T1,T2> *tree) {
-
+void save_in_tree(std::ostream *File, Tree<T1,T2> *tree, Node<T1,T2> *node) {
+    if (node != tree->FindTNull()) {
+        save_in_tree(File, tree, node->FindLeft());
+        char key [257];
+        unsigned long long value;
+        str_copy(node->FindKey(), key);
+        value = node->FindValue();
+        File->write(reinterpret_cast<char*>(key), 257*sizeof(char));
+        File->write(reinterpret_cast<char*>(&value), sizeof(unsigned long long));
+        save_in_tree(File, tree, node->FindRight());
+    }
 }
