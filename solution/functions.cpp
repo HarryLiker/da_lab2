@@ -1,12 +1,4 @@
 #include "functions.hpp"
-#include <cstring>
-
-int abs(int x) {
-    if (x < 0) {
-        return -x;
-    }
-    return x;
-}
 
 bool strings_compare(const char *string1, const char *string2) {
     int i = 0;
