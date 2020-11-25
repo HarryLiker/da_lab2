@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "functions.hpp"
+#include <cstring>
 
 typedef enum { BLACK, RED } NodeColor;
 
@@ -18,7 +19,6 @@ public:
     Node(): Left(nullptr), Right(nullptr), Parent(nullptr), Color(RED) {}
     
     void GetKey(T1 key) {
-
         
         Key = new char [257];
         int i = 0;
@@ -32,6 +32,7 @@ public:
             i++;            
         }
         Key[i] = '\0';
+        
     }
     
     T1 FindKey() {

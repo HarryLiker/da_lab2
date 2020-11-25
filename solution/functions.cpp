@@ -1,4 +1,5 @@
 #include "functions.hpp"
+#include <cstring>
 
 int abs(int x) {
     if (x < 0) {
@@ -36,11 +37,11 @@ int equal_strings(const char *string1, const char *string2) {
 
 
 void str_copy(const char *line, char *string) { 
+    
     int i = 0;
     while (i < 256 && line[i] != '\0') {
-        string[i] = line [i];
+        string[i] = line[i];
         i++;
     }
     string[i] = '\0';
-    
 }

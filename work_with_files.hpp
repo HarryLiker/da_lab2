@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "RBTree.hpp"
+#include <cstring>
 
 template <class T1, class T2>
 void load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
@@ -20,15 +21,19 @@ void load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
 }
 
 template <class T1, class T2>
-void save_in_tree(std::ostream *File, Tree<T1,T2> *tree, Node<T1,T2> *node) {
+void tree_save(std::ostream &File, Tree<T1,T2> *tree, Node<T1,T2> *node) {
     if (node != tree->FindTNull()) {
-        save_in_tree(File, tree, node->FindLeft());
+        tree_save(File, tree, node->FindLeft());
         char key [257];
-        unsigned long long value;
-        str_copy(node->FindKey(), key);
+        unsigned long long value = 0;
+        //str_copy(node->FindKey(), key);
+        memcpy(key, node->FindKey(), sizeof(char)*257);
         value = node->FindValue();
-        File->write(reinterpret_cast<char*>(key), 257*sizeof(char));
-        File->write(reinterpret_cast<char*>(&value), sizeof(unsigned long long));
-        save_in_tree(File, tree, node->FindRight());
+        File.write((const char *)key, sizeof(char)*257);
+        File.write((const char *)&value, sizeof(unsigned long long));
+        //File.write(reinterpret_cast<char*>(key), 257*sizeof(char));
+        //File.write(reinterpret_cast<char*>(&value), sizeof(unsigned long long));
+        tree_save(File, tree, node->FindRight());
     }
 }
+

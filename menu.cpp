@@ -48,7 +48,7 @@ int menu() {
                 }
                 
                 else {
-                    save_in_tree(&File, tree, tree->FindRoot());
+                    tree_save(File, tree, tree->FindRoot());
                     File.close();
                     std::cout << "OK\n";
                 } 
