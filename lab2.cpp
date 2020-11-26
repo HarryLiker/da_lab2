@@ -1,8 +1,42 @@
-#pragma once
-
 #include <iostream>
-#include "functions.hpp"
-#include <cstring>
+#include <fstream>
+
+bool strings_compare(const char *string1, const char *string2) {
+    int i = 0;
+    while(string1[i] == string2[i]) {
+        i++;
+    }
+    if(string1[i] < string2[i]) {
+        return 0;
+    }
+    else {
+        return 1;
+    }
+}
+
+int equal_strings(const char *string1, const char *string2) {
+    int i = 0;
+    while ((string1[i] == string2[i]) && (string1[i] != '\0')) {
+        i++;
+    }
+    if (string1[i] == string2[i]) {
+        return 0;
+    }
+    else if (string1[i] < string2[i]) {
+        return -1;
+    }
+    return 1;
+}
+
+void str_copy(const char *line, char *string) { 
+    
+    int i = 0;
+    while (i < 256 && line[i] != '\0') {
+        string[i] = line[i];
+        i++;
+    }
+    string[i] = '\0';
+}
 
 typedef enum { BLACK, RED } NodeColor;
 
@@ -32,10 +66,6 @@ public:
             i++;            
         }
         Key[i] = '\0';
-        while (i != 257) {
-            Key[i] = 0;
-            i++;
-        }
         
     }
     
@@ -383,3 +413,119 @@ public:
         AllTreeDelete();
     }
 };
+
+template <class T1, class T2>
+void load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
+    char key [257];
+    unsigned long long value;
+    while (File->read(reinterpret_cast<char*>(key), 257*sizeof(char)) && File->read(reinterpret_cast<char*>(&value), sizeof(unsigned long long))) {
+        Node<T1,T2> *node = new Node <T1,T2>;
+        node->GetKey(key);
+        node->GetValue(value);
+        if (tree->Insert(node) != 0) {
+            delete [] node->FindKey();
+            delete node;
+        }
+    }
+}
+
+template <class T1, class T2>
+void tree_save(std::ostream &File, Tree<T1,T2> *tree, Node<T1,T2> *node) {
+    if (node != tree->FindTNull()) {
+        tree_save(File, tree, node->FindLeft());
+        char key [257];
+        unsigned long long value = 0;
+        str_copy(node->FindKey(), key);
+        // memcpy(key, node->FindKey(), sizeof(char)*257);
+        value = node->FindValue();
+        File.write((const char *)key, sizeof(char)*257);
+        File.write((const char *)&value, sizeof(unsigned long long));
+        //File.write(reinterpret_cast<char*>(key), 257*sizeof(char));
+        //File.write(reinterpret_cast<char*>(&value), sizeof(unsigned long long));
+        tree_save(File, tree, node->FindRight());
+    }
+}
+
+int menu() {
+    Tree<char *, unsigned long long> *tree = new Tree<char *, unsigned long long>;
+    char line [257];
+    unsigned long long value;
+    while(std::cin >> line) {
+        if (line[0] == '+') {
+            std::cin >> line;
+            std::cin >> value;
+            Node<char *, unsigned long long> *node = new Node<char *, unsigned long long>;
+            node->GetKey(line);
+            node->GetValue(value);
+            if (tree->Insert(node) == 0) {
+                std::cout << "OK\n";
+            }
+            else {
+                delete [] node->FindKey();
+                delete node;
+                std::cout << "Exist\n";
+            }
+            node = nullptr;
+        }
+        else if (line[0] == '-') {
+            std::cin >> line;
+            Node<char*, unsigned long long> *deliting_node = tree->Search(line);
+            if (deliting_node != nullptr) {
+                tree->Delete(deliting_node);
+                std::cout << "OK\n";
+            }
+            else {
+                std::cout << "NoSuchWord\n";
+            }
+        }
+        else if (line[0] == '!') {
+            std::cin >> line;
+            if (line[0] == 'S') {
+                std::cin >> line; // Path
+                std::ofstream File;
+                File.open(line, std::ios_base::binary); 
+                if (!File.is_open()) {
+                    std::cout << "ERROR: There is no write permission\n";
+                }
+                
+                else {
+                    tree_save(File, tree, tree->FindRoot());
+                    File.close();
+                    std::cout << "OK\n";
+                } 
+            }
+            if (line[0] == 'L') {
+                std::cin >> line;
+                std::ifstream File;
+                File.open(line, std::ios_base::binary);
+                if (!File.is_open()) {
+                    std::cout << "ERROR: The entered file does not exist\n";
+                }
+                else {
+                    Tree<char *, unsigned long long> *new_tree;
+                    new_tree = new Tree<char *, unsigned long long>;
+                    load_tree(&File, new_tree);
+                    File.close();
+                    delete tree;
+                    tree = new_tree;
+                    std::cout << "OK\n";
+                }
+            }
+        }
+        else {
+            Node<char*, unsigned long long> *searching_node = tree->Search(line);
+            if (searching_node != nullptr) {
+                std::cout << "OK: " << searching_node->FindValue() << "\n";
+            }
+            else {
+                std::cout << "NoSuchWord\n";
+            }
+        }
+    }
+    delete tree;
+    return 0;
+}
+
+int main() {
+    menu();
+}

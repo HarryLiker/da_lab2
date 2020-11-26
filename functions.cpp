@@ -31,9 +31,18 @@ int equal_strings(const char *string1, const char *string2) {
 void str_copy(const char *line, char *string) { 
     
     int i = 0;
-    while (i < 256 && line[i] != '\0') {
-        string[i] = line[i];
+    while (i < 257 && line[i] != '\0') {
+        if ('A' <= line[i] && line[i] <= 'Z') {
+            string[i] = line[i] - 'A' + 'a';
+        }
+        else {
+            string[i] = line[i];
+        }
         i++;
     }
     string[i] = '\0';
+    while(i != 257) {
+        string[i] = 0;
+        i++;
+    }
 }

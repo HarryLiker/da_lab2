@@ -26,8 +26,8 @@ void tree_save(std::ostream &File, Tree<T1,T2> *tree, Node<T1,T2> *node) {
         tree_save(File, tree, node->FindLeft());
         char key [257];
         unsigned long long value = 0;
-        //str_copy(node->FindKey(), key);
-        memcpy(key, node->FindKey(), sizeof(char)*257);
+        str_copy(node->FindKey(), key);
+        // memcpy(key, node->FindKey(), sizeof(char)*257);
         value = node->FindValue();
         File.write((const char *)key, sizeof(char)*257);
         File.write((const char *)&value, sizeof(unsigned long long));

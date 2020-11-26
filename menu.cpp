@@ -28,6 +28,7 @@ int menu() {
         }
         else if (line[0] == '-') {
             std::cin >> line;
+            str_copy(line, line);
             Node<char*, unsigned long long> *deliting_node = tree->Search(line);
             if (deliting_node != nullptr) {
                 tree->Delete(deliting_node);
@@ -72,6 +73,7 @@ int menu() {
             }
         }
         else {
+            str_copy(line, line);
             Node<char*, unsigned long long> *searching_node = tree->Search(line);
             if (searching_node != nullptr) {
                 std::cout << "OK: " << searching_node->FindValue() << "\n";
@@ -82,5 +84,5 @@ int menu() {
         }
     }
     delete tree;
-    return 1;
+    return 0;
 }
