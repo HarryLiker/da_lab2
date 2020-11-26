@@ -431,6 +431,10 @@ public:
     }
 };
 
+bool is_empty(std::ifstream &File) {
+    return File.peek() == std::ifstream::traits_type::eof();
+}
+
 template <class T1, class T2>
 void Load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
     while (!File->eof()) {
@@ -504,15 +508,19 @@ int Menu() {
 
                 try {
                     if (tree->FindRoot() == nullptr) {
-                        throw "The tree is empty!";
+                        File.open(line, std::ofstream::binary);
+                        File.close();
+                        std::cout << "OK\n";
                     }
-                    File.open(line, std::ios_base::binary); 
-                    if (!File.is_open()) {
-                        throw "File with this name does not exist";
+                    else {
+                        File.open(line, std::ios_base::binary); 
+                        if (!File.is_open()) {
+                            throw "File with this name does not exist";
+                        }
+                        Tree_save(File, tree, tree->FindRoot());
+                        File.close();
+                        std::cout << "OK\n";
                     }
-                    Tree_save(File, tree, tree->FindRoot());
-                    File.close();
-                    std::cout << "OK\n";
                 }
                 catch (const char* error) {
                     std::cout << "ERROR: " << error << "\n";
@@ -530,13 +538,22 @@ int Menu() {
                     if (!File.is_open()) {
                         throw "File with this name does not exist\n";
                     }
-                    Tree<char *, unsigned long long> *new_tree;
-                    new_tree = new Tree<char *, unsigned long long>;
-                    Load_tree(&File, new_tree);
-                    File.close();
-                    delete tree;
-                    tree = new_tree;
-                    std::cout << "OK\n";
+                    else if (is_empty(File) == 1) {
+                        if (tree->FindRoot() != 0) {
+                            delete tree;
+                            tree = new Tree<char *, unsigned long long>;
+                        }
+                        std::cout << "OK\n";
+                    }
+                    else {
+                        Tree<char *, unsigned long long> *new_tree;
+                        new_tree = new Tree<char *, unsigned long long>;
+                        Load_tree(&File, new_tree);
+                        File.close();
+                        delete tree;
+                        tree = new_tree;
+                        std::cout << "OK\n";                        
+                    }
                 }
                 catch (const char* error) {
                     std::cout << "ERROR: " << error;
