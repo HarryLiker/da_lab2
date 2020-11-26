@@ -42,8 +42,24 @@ int menu() {
             std::cin >> line;
             if (line[0] == 'S') {
                 std::cin >> line; // Path
+                //std::ofstream File;
+                //File.open(line, std::ios_base::binary); 
                 std::ofstream File;
-                File.open(line, std::ios_base::binary); 
+                File.exceptions(std::ofstream::badbit | std::ofstream::failbit);
+                try {
+                    File.open(line, std::ios_base::binary); 
+                    if (!File.is_open()) {
+                        throw "File with this name does not exist\n";
+                    }
+                    Tree_save(File, tree, tree->FindRoot());
+                    File.close();
+                    std::cout << "OK\n";
+                }
+                catch (const std::exception &exeption) {
+                    std::cout << "ERROR: "  << exeption.what() << "\n";
+                }
+
+                /*
                 if (!File.is_open()) {
                     std::cout << "ERROR: There is no write permission\n";
                 }
@@ -53,11 +69,35 @@ int menu() {
                     File.close();
                     std::cout << "OK\n";
                 } 
+                */
             }
             if (line[0] == 'L') {
                 std::cin >> line;
                 std::ifstream File;
-                File.open(line, std::ios_base::binary);
+                // File.open(line, std::ios_base::binary);
+                File.exceptions(std::ifstream::badbit);
+                
+                try {
+                    File.open(line, std::ios_base::binary);
+                    if (!File.is_open()) {
+                        throw "File with this name does not exist\n";
+                    }
+                    Tree<char *, unsigned long long> *new_tree;
+                    new_tree = new Tree<char *, unsigned long long>;
+                    load_tree(&File, new_tree);
+                    File.close();
+                    delete tree;
+                    tree = new_tree;
+                    std::cout << "OK\n";
+                }
+                catch (const char* error) {
+                    std::cout << "ERROR: " << error;
+                }
+                catch (const std::exception &exeption) {
+                    std::cout << "ERROR: " << exeption.what() << "\n";
+                }
+                
+                /*
                 if (!File.is_open()) {
                     std::cout << "ERROR: The entered file does not exist\n";
                 }
@@ -70,6 +110,7 @@ int menu() {
                     tree = new_tree;
                     std::cout << "OK\n";
                 }
+                */
             }
         }
         else {
