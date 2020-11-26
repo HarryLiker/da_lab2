@@ -132,8 +132,8 @@ public:
     
     Node<T1,T2>* Search(T1 key) {
         Node<T1,T2> *x = Root;
-        while (x != TNull && equal_strings(key, x->FindKey()) != 0) { // 
-            if (equal_strings(key, x->FindKey()) == -1) {
+        while (x != TNull && Equal_strings(key, x->FindKey()) != 0) { // 
+            if (Equal_strings(key, x->FindKey()) == -1) {
                 x = x->FindLeft();
             }
             else {
@@ -235,7 +235,7 @@ public:
         Node<T1,T2> *current_root = Root;
         while (current_root != TNull && Root != nullptr) {
             parent_root = current_root;
-            int strings_comparison = equal_strings(insertable_root->FindKey(), current_root->FindKey());
+            int strings_comparison = Equal_strings(insertable_root->FindKey(), current_root->FindKey());
             if (strings_comparison != 0) { 
                 if (strings_comparison == -1) {
                     current_root = current_root->FindLeft();
@@ -252,7 +252,7 @@ public:
         if (parent_root == TNull) {
             Root = insertable_root;
         }
-        else if (strings_compare(insertable_root->FindKey(), parent_root->FindKey()) == 0) {
+        else if (Strings_compare(insertable_root->FindKey(), parent_root->FindKey()) == 0) {
             parent_root->GetLeft(insertable_root);
         }
         else {

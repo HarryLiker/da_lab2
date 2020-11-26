@@ -1,6 +1,6 @@
 #include "functions.hpp"
 
-bool strings_compare(const char *string1, const char *string2) {
+bool Strings_compare(const char *string1, const char *string2) {
     int i = 0;
     while(string1[i] == string2[i]) {
         i++;
@@ -13,7 +13,7 @@ bool strings_compare(const char *string1, const char *string2) {
     }
 }
 
-int equal_strings(const char *string1, const char *string2) {
+int Equal_strings(const char *string1, const char *string2) {
     int i = 0;
     while ((string1[i] == string2[i]) && (string1[i] != '\0')) {
         i++;
@@ -28,7 +28,7 @@ int equal_strings(const char *string1, const char *string2) {
 }
 
 
-void str_copy(const char *line, char *string) { 
+void Str_copy(const char *line, char *string) { 
     
     int i = 0;
     while (i < 257 && line[i] != '\0') {
@@ -46,3 +46,4 @@ void str_copy(const char *line, char *string) {
         i++;
     }
 }
+

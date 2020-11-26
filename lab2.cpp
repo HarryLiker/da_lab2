@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-bool strings_compare(const char *string1, const char *string2) {
+bool Strings_compare(const char *string1, const char *string2) {
     int i = 0;
     while(string1[i] == string2[i]) {
         i++;
@@ -14,7 +14,7 @@ bool strings_compare(const char *string1, const char *string2) {
     }
 }
 
-int equal_strings(const char *string1, const char *string2) {
+int Equal_strings(const char *string1, const char *string2) {
     int i = 0;
     while ((string1[i] == string2[i]) && (string1[i] != '\0')) {
         i++;
@@ -28,14 +28,24 @@ int equal_strings(const char *string1, const char *string2) {
     return 1;
 }
 
-void str_copy(const char *line, char *string) { 
+
+void Str_copy(const char *line, char *string) { 
     
     int i = 0;
-    while (i < 256 && line[i] != '\0') {
-        string[i] = line[i];
+    while (i < 257 && line[i] != '\0') {
+        if ('A' <= line[i] && line[i] <= 'Z') {
+            string[i] = line[i] - 'A' + 'a';
+        }
+        else {
+            string[i] = line[i];
+        }
         i++;
     }
     string[i] = '\0';
+    while(i != 257) {
+        string[i] = 0;
+        i++;
+    }
 }
 
 typedef enum { BLACK, RED } NodeColor;
@@ -66,6 +76,10 @@ public:
             i++;            
         }
         Key[i] = '\0';
+        while (i != 257) {
+            Key[i] = 0;
+            i++;
+        }
         
     }
     
@@ -162,8 +176,8 @@ public:
     
     Node<T1,T2>* Search(T1 key) {
         Node<T1,T2> *x = Root;
-        while (x != TNull && equal_strings(key, x->FindKey()) != 0) { // 
-            if (equal_strings(key, x->FindKey()) == -1) {
+        while (x != TNull && Equal_strings(key, x->FindKey()) != 0) { // 
+            if (Equal_strings(key, x->FindKey()) == -1) {
                 x = x->FindLeft();
             }
             else {
@@ -265,7 +279,7 @@ public:
         Node<T1,T2> *current_root = Root;
         while (current_root != TNull && Root != nullptr) {
             parent_root = current_root;
-            int strings_comparison = equal_strings(insertable_root->FindKey(), current_root->FindKey());
+            int strings_comparison = Equal_strings(insertable_root->FindKey(), current_root->FindKey());
             if (strings_comparison != 0) { 
                 if (strings_comparison == -1) {
                     current_root = current_root->FindLeft();
@@ -282,7 +296,7 @@ public:
         if (parent_root == TNull) {
             Root = insertable_root;
         }
-        else if (strings_compare(insertable_root->FindKey(), parent_root->FindKey()) == 0) {
+        else if (Strings_compare(insertable_root->FindKey(), parent_root->FindKey()) == 0) {
             parent_root->GetLeft(insertable_root);
         }
         else {
@@ -415,10 +429,12 @@ public:
 };
 
 template <class T1, class T2>
-void load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
-    char key [257];
-    unsigned long long value;
-    while (File->read(reinterpret_cast<char*>(key), 257*sizeof(char)) && File->read(reinterpret_cast<char*>(&value), sizeof(unsigned long long))) {
+void Load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
+    while (!File->eof()) {
+        char key [257];
+        unsigned long long value;
+        File->read(reinterpret_cast<char*>(key), 257*sizeof(char));
+        File->read(reinterpret_cast<char*>(&value), sizeof(unsigned long long));
         Node<T1,T2> *node = new Node <T1,T2>;
         node->GetKey(key);
         node->GetValue(value);
@@ -430,23 +446,20 @@ void load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
 }
 
 template <class T1, class T2>
-void tree_save(std::ostream &File, Tree<T1,T2> *tree, Node<T1,T2> *node) {
+void Tree_save(std::ostream &File, Tree<T1,T2> *tree, Node<T1,T2> *node) {
     if (node != tree->FindTNull()) {
-        tree_save(File, tree, node->FindLeft());
+        Tree_save(File, tree, node->FindLeft());
         char key [257];
         unsigned long long value = 0;
-        str_copy(node->FindKey(), key);
-        // memcpy(key, node->FindKey(), sizeof(char)*257);
+        Str_copy(node->FindKey(), key);
         value = node->FindValue();
         File.write((const char *)key, sizeof(char)*257);
         File.write((const char *)&value, sizeof(unsigned long long));
-        //File.write(reinterpret_cast<char*>(key), 257*sizeof(char));
-        //File.write(reinterpret_cast<char*>(&value), sizeof(unsigned long long));
-        tree_save(File, tree, node->FindRight());
+        Tree_save(File, tree, node->FindRight());
     }
 }
 
-int menu() {
+int Menu() {
     Tree<char *, unsigned long long> *tree = new Tree<char *, unsigned long long>;
     char line [257];
     unsigned long long value;
@@ -469,6 +482,7 @@ int menu() {
         }
         else if (line[0] == '-') {
             std::cin >> line;
+            Str_copy(line, line);
             Node<char*, unsigned long long> *deliting_node = tree->Search(line);
             if (deliting_node != nullptr) {
                 tree->Delete(deliting_node);
@@ -481,38 +495,50 @@ int menu() {
         else if (line[0] == '!') {
             std::cin >> line;
             if (line[0] == 'S') {
-                std::cin >> line; // Path
+                std::cin >> line; // Path 
                 std::ofstream File;
-                File.open(line, std::ios_base::binary); 
-                if (!File.is_open()) {
-                    std::cout << "ERROR: There is no write permission\n";
-                }
-                
-                else {
-                    tree_save(File, tree, tree->FindRoot());
+                File.exceptions(std::ofstream::badbit | std::ofstream::failbit);
+
+                try {
+                    File.open(line, std::ios_base::binary); 
+                    if (!File.is_open()) {
+                        throw "File with this name does not exist\n";
+                    }
+                    Tree_save(File, tree, tree->FindRoot());
                     File.close();
                     std::cout << "OK\n";
-                } 
+                }
+                catch (const std::exception &exeption) {
+                    std::cout << "ERROR: "  << exeption.what() << "\n";
+                }
             }
             if (line[0] == 'L') {
                 std::cin >> line;
                 std::ifstream File;
-                File.open(line, std::ios_base::binary);
-                if (!File.is_open()) {
-                    std::cout << "ERROR: The entered file does not exist\n";
-                }
-                else {
+                File.exceptions(std::ifstream::badbit);
+                try {
+                    File.open(line, std::ios_base::binary);
+                    if (!File.is_open()) {
+                        throw "File with this name does not exist\n";
+                    }
                     Tree<char *, unsigned long long> *new_tree;
                     new_tree = new Tree<char *, unsigned long long>;
-                    load_tree(&File, new_tree);
+                    Load_tree(&File, new_tree);
                     File.close();
                     delete tree;
                     tree = new_tree;
                     std::cout << "OK\n";
                 }
+                catch (const char* error) {
+                    std::cout << "ERROR: " << error;
+                }
+                catch (const std::exception &exeption) {
+                    std::cout << "ERROR: " << exeption.what() << "\n";
+                }
             }
         }
         else {
+            Str_copy(line, line);
             Node<char*, unsigned long long> *searching_node = tree->Search(line);
             if (searching_node != nullptr) {
                 std::cout << "OK: " << searching_node->FindValue() << "\n";
@@ -527,5 +553,5 @@ int menu() {
 }
 
 int main() {
-    menu();
+    Menu();
 }

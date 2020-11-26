@@ -3,27 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include "RBTree.hpp"
-#include <cstring>
 
 template <class T1, class T2>
-void load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
-    /*
-    for (int i = 0; i < 3; i++) {
-        char key [257];
-        unsigned long long value;
-        File->read(reinterpret_cast<char*>(key), 257*sizeof(char));
-        File->read(reinterpret_cast<char*>(&value), sizeof(unsigned long long));
-        Node<T1,T2> *node = new Node <T1,T2>;
-        node->GetKey(key);
-        node->GetValue(value);
-        std::cout << key << " " << value << "\n";
-        if (tree->Insert(node) != 0) {
-            delete [] node->FindKey();
-            delete node;
-        }        
-    }
-    */
-    
+void Load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
     while (!File->eof()) {
         char key [257];
         unsigned long long value;
@@ -45,7 +27,7 @@ void Tree_save(std::ostream &File, Tree<T1,T2> *tree, Node<T1,T2> *node) {
         Tree_save(File, tree, node->FindLeft());
         char key [257];
         unsigned long long value = 0;
-        str_copy(node->FindKey(), key);
+        Str_copy(node->FindKey(), key);
         value = node->FindValue();
         File.write((const char *)key, sizeof(char)*257);
         File.write((const char *)&value, sizeof(unsigned long long));
