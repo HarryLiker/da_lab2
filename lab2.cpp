@@ -176,6 +176,9 @@ public:
     
     Node<T1,T2>* Search(T1 key) {
         Node<T1,T2> *x = Root;
+        if (x == nullptr) {
+            return nullptr;
+        }
         while (x != TNull && Equal_strings(key, x->FindKey()) != 0) { // 
             if (Equal_strings(key, x->FindKey()) == -1) {
                 x = x->FindLeft();
@@ -500,13 +503,19 @@ int Menu() {
                 File.exceptions(std::ofstream::badbit | std::ofstream::failbit);
 
                 try {
+                    if (tree->FindRoot() == nullptr) {
+                        throw "The tree is empty!";
+                    }
                     File.open(line, std::ios_base::binary); 
                     if (!File.is_open()) {
-                        throw "File with this name does not exist\n";
+                        throw "File with this name does not exist";
                     }
                     Tree_save(File, tree, tree->FindRoot());
                     File.close();
                     std::cout << "OK\n";
+                }
+                catch (const char* error) {
+                    std::cout << "ERROR: " << error << "\n";
                 }
                 catch (const std::exception &exeption) {
                     std::cout << "ERROR: "  << exeption.what() << "\n";

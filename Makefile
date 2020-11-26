@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/harry/MAI/DA/da_lab2
+CMAKE_SOURCE_DIR = /root/work/MAI/DA/da_lab2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/harry/MAI/DA/da_lab2
+CMAKE_BINARY_DIR = /root/work/MAI/DA/da_lab2
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/harry/MAI/DA/da_lab2/CMakeFiles /home/harry/MAI/DA/da_lab2/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/work/MAI/DA/da_lab2/CMakeFiles /root/work/MAI/DA/da_lab2/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/harry/MAI/DA/da_lab2/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/work/MAI/DA/da_lab2/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,86 +123,32 @@ lab2/fast:
 	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/build
 .PHONY : lab2/fast
 
-functions.o: functions.cpp.o
+lab2.o: lab2.cpp.o
 
-.PHONY : functions.o
-
-# target to build an object file
-functions.cpp.o:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/functions.cpp.o
-.PHONY : functions.cpp.o
-
-functions.i: functions.cpp.i
-
-.PHONY : functions.i
-
-# target to preprocess a source file
-functions.cpp.i:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/functions.cpp.i
-.PHONY : functions.cpp.i
-
-functions.s: functions.cpp.s
-
-.PHONY : functions.s
-
-# target to generate assembly for a file
-functions.cpp.s:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/functions.cpp.s
-.PHONY : functions.cpp.s
-
-main.o: main.cpp.o
-
-.PHONY : main.o
+.PHONY : lab2.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/main.cpp.o
-.PHONY : main.cpp.o
+lab2.cpp.o:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.o
+.PHONY : lab2.cpp.o
 
-main.i: main.cpp.i
+lab2.i: lab2.cpp.i
 
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/main.cpp.s
-.PHONY : main.cpp.s
-
-menu.o: menu.cpp.o
-
-.PHONY : menu.o
-
-# target to build an object file
-menu.cpp.o:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/menu.cpp.o
-.PHONY : menu.cpp.o
-
-menu.i: menu.cpp.i
-
-.PHONY : menu.i
+.PHONY : lab2.i
 
 # target to preprocess a source file
-menu.cpp.i:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/menu.cpp.i
-.PHONY : menu.cpp.i
+lab2.cpp.i:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.i
+.PHONY : lab2.cpp.i
 
-menu.s: menu.cpp.s
+lab2.s: lab2.cpp.s
 
-.PHONY : menu.s
+.PHONY : lab2.s
 
 # target to generate assembly for a file
-menu.cpp.s:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/menu.cpp.s
-.PHONY : menu.cpp.s
+lab2.cpp.s:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.s
+.PHONY : lab2.cpp.s
 
 # Help Target
 help:
@@ -213,15 +159,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... lab2"
-	@echo "... functions.o"
-	@echo "... functions.i"
-	@echo "... functions.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... menu.o"
-	@echo "... menu.i"
-	@echo "... menu.s"
+	@echo "... lab2.o"
+	@echo "... lab2.i"
+	@echo "... lab2.s"
 .PHONY : help
 
 

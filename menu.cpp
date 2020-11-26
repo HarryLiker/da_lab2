@@ -46,6 +46,9 @@ int Menu() {
                 File.exceptions(std::ofstream::badbit | std::ofstream::failbit);
 
                 try {
+                    if (tree->FindRoot == nullptr) {
+                        throw "The tree is empty!\n";
+                    }
                     File.open(line, std::ios_base::binary); 
                     if (!File.is_open()) {
                         throw "File with this name does not exist\n";

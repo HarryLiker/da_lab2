@@ -132,7 +132,7 @@ def checker_func(args):
         if proc.returncode != 0:
             print('some error:', proc.returncode)
             print('stderr:', proc.stderr.read().decode())
-            print(*test, sep='\n', file=open(os.path.join(os.path.dirname(__file__), args.out_testfile), 'w'))
+            print(*test, sep='\n')
             break
         out = list(map(lambda x: x.decode(), proc.stdout.readlines()))
 
@@ -140,7 +140,7 @@ def checker_func(args):
 
         if len(gen) > 0:
             print(*gen)
-            print(*test, sep='\n', file=open(os.path.join(os.path.dirname(__file__), args.out_testfile), 'w'))
+            print(*test, sep='\n')
             break
 
     os.chdir(prev_dir)
@@ -185,8 +185,8 @@ def main():
                            help='The probability of using save-load command(default: 0.8)')
 
     solver = subparsers.add_parser('solver')
-    solver.add_argument('input', type=argparse.FileType('r'), help='tests_02.txt')
-    solver.add_argument('output', type=argparse.FileType('w'), help='result')
+    solver.add_argument('input', type=argparse.FileType('r'), help='File with tests')
+    solver.add_argument('output', type=argparse.FileType('w'), help='File to output')
 
     args = parser.parse_args(sys.argv[1:])
 
@@ -196,7 +196,7 @@ def main():
     UNIQUE_LETTER_COUNT = args.count_unique_letters
 
     random.seed(args.random_state)
-    args.command_name = 'checker'
+
     if args.command_name == 'checker':
         checker_func(args)
     elif args.command_name == 'solver':
