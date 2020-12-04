@@ -11,11 +11,11 @@ void Load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
         unsigned long long value;
         File->read(reinterpret_cast<char*>(key), 257*sizeof(char));
         File->read(reinterpret_cast<char*>(&value), sizeof(unsigned long long));
-        Node<T1,T2> *node = new Node <T1,T2>;
+        Node<T1,T2> *node = new Node<T1,T2>;
         node->GetKey(key);
         node->GetValue(value);
         if (tree->Insert(node) != 0) {
-            delete [] node->FindKey();
+            //delete [] node->FindKey();
             delete node;
         }
     }

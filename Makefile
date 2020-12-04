@@ -123,32 +123,86 @@ lab2/fast:
 	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/build
 .PHONY : lab2/fast
 
-lab2.o: lab2.cpp.o
+functions.o: functions.cpp.o
 
-.PHONY : lab2.o
+.PHONY : functions.o
 
 # target to build an object file
-lab2.cpp.o:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.o
-.PHONY : lab2.cpp.o
+functions.cpp.o:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/functions.cpp.o
+.PHONY : functions.cpp.o
 
-lab2.i: lab2.cpp.i
+functions.i: functions.cpp.i
 
-.PHONY : lab2.i
+.PHONY : functions.i
 
 # target to preprocess a source file
-lab2.cpp.i:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.i
-.PHONY : lab2.cpp.i
+functions.cpp.i:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/functions.cpp.i
+.PHONY : functions.cpp.i
 
-lab2.s: lab2.cpp.s
+functions.s: functions.cpp.s
 
-.PHONY : lab2.s
+.PHONY : functions.s
 
 # target to generate assembly for a file
-lab2.cpp.s:
-	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.s
-.PHONY : lab2.cpp.s
+functions.cpp.s:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/functions.cpp.s
+.PHONY : functions.cpp.s
+
+main.o: main.cpp.o
+
+.PHONY : main.o
+
+# target to build an object file
+main.cpp.o:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/main.cpp.o
+.PHONY : main.cpp.o
+
+main.i: main.cpp.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/main.cpp.s
+.PHONY : main.cpp.s
+
+menu.o: menu.cpp.o
+
+.PHONY : menu.o
+
+# target to build an object file
+menu.cpp.o:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/menu.cpp.o
+.PHONY : menu.cpp.o
+
+menu.i: menu.cpp.i
+
+.PHONY : menu.i
+
+# target to preprocess a source file
+menu.cpp.i:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/menu.cpp.i
+.PHONY : menu.cpp.i
+
+menu.s: menu.cpp.s
+
+.PHONY : menu.s
+
+# target to generate assembly for a file
+menu.cpp.s:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/menu.cpp.s
+.PHONY : menu.cpp.s
 
 # Help Target
 help:
@@ -159,9 +213,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... lab2"
-	@echo "... lab2.o"
-	@echo "... lab2.i"
-	@echo "... lab2.s"
+	@echo "... functions.o"
+	@echo "... functions.i"
+	@echo "... functions.s"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
+	@echo "... menu.o"
+	@echo "... menu.i"
+	@echo "... menu.s"
 .PHONY : help
 
 

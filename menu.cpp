@@ -16,11 +16,12 @@ int Menu() {
             Node<char *, unsigned long long> *node = new Node<char *, unsigned long long>;
             node->GetKey(line);
             node->GetValue(value);
+            node->GetParent(tree->FindTNull());
             if (tree->Insert(node) == 0) {
                 std::cout << "OK\n";
             }
             else {
-                delete [] node->FindKey();
+                // delete [] node->FindKey();
                 delete node;
                 std::cout << "Exist\n";
             }
@@ -33,6 +34,7 @@ int Menu() {
             if (deliting_node != nullptr) {
                 tree->Delete(deliting_node);
                 std::cout << "OK\n";
+                deliting_node = nullptr;
             }
             else {
                 std::cout << "NoSuchWord\n";
@@ -46,16 +48,19 @@ int Menu() {
                 File.exceptions(std::ofstream::badbit | std::ofstream::failbit);
 
                 try {
-                    if (tree->FindRoot == nullptr) {
-                        throw "The tree is empty!\n";
-                    }
-                    File.open(line, std::ios_base::binary); 
+                    File.open(line, std::ios_base::binary);
                     if (!File.is_open()) {
                         throw "File with this name does not exist\n";
                     }
-                    Tree_save(File, tree, tree->FindRoot());
-                    File.close();
-                    std::cout << "OK\n";
+                    if (tree->FindRoot() == nullptr) {
+                        File.close();
+                        throw "OK\n";
+                    }
+                    else {
+                        Tree_save(File, tree, tree->FindRoot());
+                        File.close();
+                        std::cout << "OK\n";
+                    } 
                 }
                 catch (const std::exception &exeption) {
                     std::cout << "ERROR: "  << exeption.what() << "\n";
@@ -70,13 +75,20 @@ int Menu() {
                     if (!File.is_open()) {
                         throw "File with this name does not exist\n";
                     }
-                    Tree<char *, unsigned long long> *new_tree;
-                    new_tree = new Tree<char *, unsigned long long>;
-                    Load_tree(&File, new_tree);
-                    File.close();
-                    delete tree;
-                    tree = new_tree;
-                    std::cout << "OK\n";
+                    else if (File.peek() == EOF) {
+                        delete tree;
+                        tree = new Tree<char *, unsigned long long>;
+                        std::cout << "OK\n";
+                    }
+                    else {
+                        Tree<char *, unsigned long long> *new_tree;
+                        new_tree = new Tree<char *, unsigned long long>;
+                        Load_tree(&File, new_tree);
+                        File.close();
+                        delete tree;
+                        tree = new_tree;
+                        std::cout << "OK\n";
+                    }
                 }
                 catch (const char* error) {
                     std::cout << "ERROR: " << error;
