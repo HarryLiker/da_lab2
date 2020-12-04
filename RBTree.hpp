@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include "functions.hpp"
-#include <cstring>
 
 typedef enum { BLACK, RED } NodeColor;
 
@@ -127,7 +126,6 @@ public:
                     current_root->FindParent()->GetRight(TNull);
                 }
                 current_root = current_root->FindParent();
-                // delete [] deleting_ptr->FindKey();
                 delete deleting_ptr;
             }
         }
@@ -237,7 +235,7 @@ public:
     bool Insert(Node<T1, T2>* insertable_root) {
         Node<T1, T2> *parent_root = TNull;
         Node<T1,T2> *current_root = Root;
-        while (current_root != TNull) { // ???????????????????????
+        while (current_root != TNull) {
             parent_root = current_root;
             int strings_comparison = Equal_strings(insertable_root->FindKey(), current_root->FindKey());
             if (strings_comparison != 0) { 
@@ -255,7 +253,7 @@ public:
         insertable_root->GetParent(parent_root);
         if (parent_root == TNull) {
             Root = insertable_root;
-        } //Equal_strings(insertable_root->FindKey(), parent_root->FindKey() == -1)
+        }
         else if (Equal_strings(insertable_root->FindKey(), parent_root->FindKey()) == -1) {
             parent_root->GetLeft(insertable_root);
         }
@@ -384,7 +382,7 @@ public:
             }
         }
         else {
-            y = TreeMinimum(z->FindRight()); // TreeMinimum(z->right)
+            y = TreeMinimum(z->FindRight());
             y_original_color = y->FindColor();
             x = y->FindRight();
             if (y->FindParent() == z) {
@@ -403,7 +401,6 @@ public:
         if (y_original_color == BLACK) {
             DeleteFixup(x);
         }
-        // delete [] y->FindKey(); // ???????????????????????????
         delete z;
     }
 

@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include "functions.hpp"
-#include <cstring>
 
 typedef enum { BLACK, RED } NodeColor;
 
@@ -16,8 +15,8 @@ private:
     Node* Parent;
     NodeColor Color; // Color: Black or Red
 public:
-    Node(): Left(nullptr), Right(nullptr), Parent(nullptr), Color(RED) {}
-    
+    Node(): Key(nullptr), Value(0), Left(nullptr), Right(nullptr), Parent(nullptr), Color(RED) {}
+
     void GetKey(T1 key) {
         
         Key = new char [257];
@@ -32,6 +31,10 @@ public:
             i++;            
         }
         Key[i] = '\0';
+        while (i != 257) {
+            Key[i] = 0;
+            i++;
+        }
         
     }
     
@@ -68,20 +71,24 @@ public:
     NodeColor FindColor() {
         return Color;
     }
-    ~Node() {}
+    ~Node() {
+        delete [] Key;
+    }
 };
 
 template<class T1, class T2>
 class Tree {
 private:
-    Node<T1, T2>* Root;
+    Node<T1,T2>* Root;
     Node<T1,T2>* TNull;
 public:
-    Tree(): Root(nullptr) {
+    Tree() {
         TNull = new Node<T1,T2>;
+        TNull->GetColor(BLACK);
+        Root = TNull;
         TNull->GetLeft(Root);
         TNull->GetRight(Root);
-        TNull->GetColor(BLACK);
+        Root->GetParent(TNull);
     }
 
     Node<T1,T2>* FindRoot() {
@@ -119,7 +126,6 @@ public:
                     current_root->FindParent()->GetRight(TNull);
                 }
                 current_root = current_root->FindParent();
-                delete [] deleting_ptr->FindKey();
                 delete deleting_ptr;
             }
         }
@@ -128,8 +134,8 @@ public:
     
     Node<T1,T2>* Search(T1 key) {
         Node<T1,T2> *x = Root;
-        while (x != TNull && equal_strings(key, x->FindKey()) != 0) { // 
-            if (equal_strings(key, x->FindKey()) == -1) {
+        while (x != TNull && Equal_strings(key, x->FindKey()) != 0) { // 
+            if (Equal_strings(key, x->FindKey()) == -1) {
                 x = x->FindLeft();
             }
             else {
@@ -148,7 +154,7 @@ public:
         if (y->FindLeft() != TNull) {
             y->FindLeft()->GetParent(x);
         }
-        y->GetParent(x->FindParent()); // The parent of y became the patent of x
+        y->GetParent(x->FindParent()); // The parent of y became the parent of x
         if (x->FindParent() == TNull) {
             Root = y;
         }
@@ -172,11 +178,11 @@ public:
         if (x->FindParent() == TNull) {
             Root = y;
         }
-        else if (x == x->FindParent()->FindRight()) {
-            x->FindParent()->GetRight(y);
+        else if (x == x->FindParent()->FindLeft()) {
+            x->FindParent()->GetLeft(y);
         }
         else {
-            x->FindParent()->GetLeft(y);
+            x->FindParent()->GetRight(y);
         }
         y->GetRight(x); // x becomes the right child of y
         x->GetParent(y);
@@ -229,9 +235,9 @@ public:
     bool Insert(Node<T1, T2>* insertable_root) {
         Node<T1, T2> *parent_root = TNull;
         Node<T1,T2> *current_root = Root;
-        while (current_root != TNull && Root != nullptr) {
+        while (current_root != TNull) {
             parent_root = current_root;
-            int strings_comparison = equal_strings(insertable_root->FindKey(), current_root->FindKey());
+            int strings_comparison = Equal_strings(insertable_root->FindKey(), current_root->FindKey());
             if (strings_comparison != 0) { 
                 if (strings_comparison == -1) {
                     current_root = current_root->FindLeft();
@@ -248,7 +254,7 @@ public:
         if (parent_root == TNull) {
             Root = insertable_root;
         }
-        else if (strings_compare(insertable_root->FindKey(), parent_root->FindKey()) == 0) {
+        else if (Equal_strings(insertable_root->FindKey(), parent_root->FindKey()) == -1) {
             parent_root->GetLeft(insertable_root);
         }
         else {
@@ -282,16 +288,19 @@ public:
     }
 
     void DeleteFixup(Node<T1,T2> *x) {
-        while (x != Root && x->FindColor() == BLACK) {
+        while ((x != Root) && (x->FindColor() == BLACK)) {
             if (x == x->FindParent()->FindLeft()) {
                 Node<T1,T2> *y = x->FindParent()->FindRight();
                 if (y->FindColor() == RED) {
                     y->GetColor(BLACK);
                     x->FindParent()->GetColor(RED);
                     LeftRotation(x->FindParent());
+                    if (x->FindParent() == Root) {
+                        Root = x->FindParent()->FindParent();
+                    }
                     y = x->FindParent()->FindRight();
                 }
-                if (y->FindLeft()->FindColor() == BLACK && y->FindRight()->FindColor() == BLACK) {
+                if ((y->FindLeft()->FindColor() == BLACK) && (y->FindRight()->FindColor() == BLACK)) {
                     y->GetColor(RED);
                     x = x->FindParent();
                 }
@@ -300,24 +309,33 @@ public:
                         y->FindLeft()->GetColor(BLACK); 
                         y->GetColor(RED);
                         RightRotation(y);
+                        if (y == Root) {
+                            Root = y->FindParent();
+                        }
                         y = x->FindParent()->FindRight();
                     }
                     y->GetColor(x->FindParent()->FindColor());
                     x->FindParent()->GetColor(BLACK);
                     y->FindRight()->GetColor(BLACK);
                     LeftRotation(x->FindParent());
+                    if (x->FindParent() == Root) {
+                        Root = x->FindParent()->FindParent();
+                    }
                     x = Root;
                 }
             }
             else {
                 Node<T1,T2> *y = x->FindParent()->FindLeft();
                 if (y->FindColor() == RED) {
-                    y->GetColor(RED);
+                    y->GetColor(BLACK);
                     x->FindParent()->GetColor(RED);
                     RightRotation(x->FindParent());
+                    if (x->FindParent() == Root) {
+                        Root = x->FindParent()->FindParent();
+                    }
                     y = x->FindParent()->FindLeft();
                 }
-                if (y->FindRight()->FindColor() == BLACK && y->FindLeft()->FindColor() == BLACK) {
+                if ((y->FindRight()->FindColor() == BLACK) && (y->FindLeft()->FindColor() == BLACK)) {
                     y->GetColor(RED);
                     x = x->FindParent();
                 }
@@ -326,12 +344,18 @@ public:
                         y->FindRight()->GetColor(BLACK);
                         y->GetColor(RED);
                         LeftRotation(y);
+                        if (Root == y) {
+                            Root = y->FindParent();
+                        }
                         y = x->FindParent()->FindLeft();
                     }
                     y->GetColor(x->FindParent()->FindColor());
                     x->FindParent()->GetColor(BLACK);
                     y->FindLeft()->GetColor(BLACK);
                     RightRotation(x->FindParent());
+                    if (x->FindParent() == Root) {
+                        Root = x->FindParent()->FindParent();
+                    }
                     x = Root;
                 }
             }
@@ -341,18 +365,24 @@ public:
 
     void Delete(Node<T1,T2>* z) {
         Node<T1,T2> *y = z;
-        Node<T1,T2> *x = TNull;
+        Node<T1,T2> *x;
         NodeColor y_original_color = y->FindColor();
         if (z->FindLeft() == TNull) {
             x = z->FindRight();
             Transplant(z, z->FindRight());
+            if (z == Root) {
+                Root = x;
+            }
         }
         else if (z->FindRight() == TNull) {
             x = z->FindLeft();
             Transplant(z, z->FindLeft());
+            if (z == Root) {
+                Root = x;
+            }
         }
         else {
-            y = TreeMinimum(z->FindRight()); // TreeMinimum(z->right)
+            y = TreeMinimum(z->FindRight());
             y_original_color = y->FindColor();
             x = y->FindRight();
             if (y->FindParent() == z) {
@@ -363,7 +393,7 @@ public:
                 y->GetRight(z->FindRight());
                 y->FindRight()->GetParent(y);
             }
-            Transplant (z, y);
+            Transplant(z, y);
             y->GetLeft(z->FindLeft());
             y->FindLeft()->GetParent(y);
             y->GetColor(z->FindColor());
@@ -371,7 +401,6 @@ public:
         if (y_original_color == BLACK) {
             DeleteFixup(x);
         }
-        delete [] z->FindKey();
         delete z;
     }
 

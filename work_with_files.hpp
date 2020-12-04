@@ -15,7 +15,6 @@ void Load_tree(std::ifstream *File, Tree<T1,T2> *tree) {
         node->GetKey(key);
         node->GetValue(value);
         if (tree->Insert(node) != 0) {
-            //delete [] node->FindKey();
             delete node;
         }
     }

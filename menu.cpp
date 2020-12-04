@@ -21,7 +21,6 @@ int Menu() {
                 std::cout << "OK\n";
             }
             else {
-                // delete [] node->FindKey();
                 delete node;
                 std::cout << "Exist\n";
             }

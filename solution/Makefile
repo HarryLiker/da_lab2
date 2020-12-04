@@ -1,12 +1,21 @@
 CC=g++
-FLAGS=-std=c++14 -pedantic -Wall -Wextra -Wno-unused-variable
-OUTPUT=lab2
 
-all: menu.o functions.o main.cpp
-	$(CC) $(FLAGS) menu.o functions.o main.cpp -o $(OUTPUT)
-menu.o: menu.cpp menu.hpp work_with_files.hpp RBTree.hpp
-	$(CC) $(FLAGS) -c menu.cpp
-functions.o: functions.cpp functions.hpp
-	$(CC) $(FLAGS) -c functions.cpp
+CFLAGS=--std=c++14 -c -O3
+
+all: solution
+
+solution: main.o functions.o menu.o
+	$(CC) main.o functions.o menu.o -o solution
+
+main.o: main.cpp
+	$(CC) $(CFLAGS) main.cpp
+
+functions.o: functions.cpp
+	$(CC) $(CFLAGS) functions.cpp
+
+menu.o: menu.cpp
+	$(CC) $(CFLAGS) menu.cpp
+
 clean:
-	rm -rf *.o $(OUTPUT)
+	rm -rf *.o solution
+

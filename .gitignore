@@ -6,3 +6,4 @@
 *.txt
 *.o
 tests/
+СMakeFiles
