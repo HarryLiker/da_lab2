@@ -5,5 +5,5 @@
 /CMakeCache.txt
 *.txt
 *.o
-tests/
 СMakeFiles
+.out
